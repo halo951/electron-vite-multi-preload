@@ -160,20 +160,36 @@ export async function resolveConfig(
       }
 
       if (loadResult.config.preload) {
-        const preloadViteConfig: ViteConfig = mergeConfig(loadResult.config.preload, deepClone(config))
+        if (loadResult.config.preload instanceof Array) {
+          loadResult.config.preload = loadResult.config.preload.map(p => {
+            const preloadViteConfig: ViteConfig = mergeConfig(p, deepClone(config))
+            if (outDir) {
+              resetOutDir(preloadViteConfig, outDir, 'preload')
+            }
+            mergePlugins(preloadViteConfig, [
+              ...electronPreloadVitePlugin({ root }),
+              assetPlugin(),
+              importMetaUrlPlugin(),
+              esmShimPlugin()
+            ])
+            return preloadViteConfig
+          })
+        } else {
+          const preloadViteConfig: ViteConfig = mergeConfig(loadResult.config.preload, deepClone(config))
 
-        if (outDir) {
-          resetOutDir(preloadViteConfig, outDir, 'preload')
+          if (outDir) {
+            resetOutDir(preloadViteConfig, outDir, 'preload')
+          }
+          mergePlugins(preloadViteConfig, [
+            ...electronPreloadVitePlugin({ root }),
+            assetPlugin(),
+            importMetaUrlPlugin(),
+            esmShimPlugin()
+          ])
+
+          loadResult.config.preload = preloadViteConfig
+          loadResult.config.preload.configFile = false
         }
-        mergePlugins(preloadViteConfig, [
-          ...electronPreloadVitePlugin({ root }),
-          assetPlugin(),
-          importMetaUrlPlugin(),
-          esmShimPlugin()
-        ])
-
-        loadResult.config.preload = preloadViteConfig
-        loadResult.config.preload.configFile = false
       }
 
       if (loadResult.config.renderer) {
