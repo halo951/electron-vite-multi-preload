@@ -43,7 +43,7 @@ export interface UserConfig {
    *
    * https://vitejs.dev/config/
    */
-  preload?: ViteConfig & { configFile?: string | false }
+  preload?: (ViteConfig & { configFile?: string | false }) | Array<ViteConfig & { configFile?: string | false }>
 }
 
 export interface ElectronViteConfig {
@@ -64,7 +64,7 @@ export interface ElectronViteConfig {
    *
    * https://vitejs.dev/config/
    */
-  preload?: ViteConfigExport
+  preload?: ViteConfigExport | Array<ViteConfigExport>
 }
 
 export type InlineConfig = Omit<ViteConfig, 'base'> & {

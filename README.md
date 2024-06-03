@@ -25,6 +25,15 @@
 <br />
 <br />
 
+
+## Extends (扩展内容)
+
+- 增加多 preload 入口支持 (处理特定场景问题)
+  - 当需要根据不同访问目标加载差异性的preload时, 需要使用到 vite 的多入口逻辑. 但是, 由于vite的chunk拆分逻辑, 不便于精细化的区分是否使用chunk
+  - 如果此时遇到了, electron 开启 sandbox 的情况, 将导致 chunk 无法被正确加载. 所以, 这里增加了多个preload入口的支持, 从CI层面, 解决禁用chunk的问题
+- 增加通知事件, preload 重载时, 向主进程 (main) 发送通知. 
+  - 解决使用webview且打开devTool在应用重载时, 会由于无法正确关闭 devTool 导致应用崩溃问题.
+
 ## Features
 
 - ⚡️ [Vite](https://vitejs.dev) powered and use the same way.

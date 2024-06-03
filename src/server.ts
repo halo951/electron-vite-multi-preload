@@ -58,12 +58,22 @@ export async function createServer(
 
         if (server) {
           logger.info(colors.cyan(`\n  trigger renderer reload`))
+          // ! Tips: 重新加载前, 通知主进程触发了 full-reload 事件
+          if (ps) {
+            ps.emit('full-reload')
+          }
 
           server.ws.send({ type: 'full-reload' })
         }
       }
 
-      await doBuild(preloadViteConfig, watchHook, errorHook)
+      if (preloadViteConfig instanceof Array) {
+        for (const preloadConfig of preloadViteConfig) {
+          await doBuild(preloadConfig, watchHook, errorHook)
+        }
+      } else {
+        await doBuild(preloadViteConfig, watchHook, errorHook)
+      }
 
       logger.info(colors.green(`\nbuild the electron preload files successfully`))
     }

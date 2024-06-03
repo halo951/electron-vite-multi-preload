@@ -16,7 +16,14 @@ export async function build(inlineConfig: InlineConfig = {}): Promise<void> {
       await viteBuild(mainViteConfig)
     }
     const preloadViteConfig = config.config?.preload
-    if (preloadViteConfig) {
+    if (preloadViteConfig instanceof Array) {
+      for (const preloadConfig of preloadViteConfig) {
+        if (preloadConfig.build?.watch) {
+          preloadConfig.build.watch = null
+        }
+        await viteBuild(preloadConfig)
+      }
+    } else if (preloadViteConfig) {
       if (preloadViteConfig.build?.watch) {
         preloadViteConfig.build.watch = null
       }

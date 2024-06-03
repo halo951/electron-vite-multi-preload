@@ -1,7 +1,7 @@
 {
-  "name": "electron-vite",
-  "version": "2.2.0",
-  "description": "Electron build tooling based on Vite",
+  "name": "electron-vite-multi-preload",
+  "version": "2.2.0-ext.1",
+  "description": "Expanding Electron vite support for multiple preloads, and synchronize versions with the main branch repository",
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -28,7 +28,7 @@
   "engines": {
     "node": "^18.0.0 || >=20.0.0"
   },
-  "packageManager": "pnpm@8.6.10",
+  "packageManager": "pnpm@9.1.4",
   "author": "Alex Wei<https://github.com/alex8088>",
   "license": "MIT",
   "repository": {
