@@ -1,6 +1,6 @@
 {
   "name": "electron-vite-multi-preload",
-  "version": "2.2.0-ext.1",
+  "version": "2.2.0-ext.2",
   "description": "Expanding Electron vite support for multiple preloads, and synchronize versions with the main branch repository",
   "type": "module",
   "main": "dist/index.cjs",

@@ -295,7 +295,13 @@ export async function loadConfigFromFile(
     if (config.preload) {
       const preloadViteConfig = config.preload
       preloadConfig = await (typeof preloadViteConfig === 'function' ? preloadViteConfig(configEnv) : preloadViteConfig)
-      if (!isObject(preloadConfig)) {
+      if (preloadConfig instanceof Array) {
+        for (const pc of preloadConfig) {
+          if (!isObject(pc)) {
+            throw new Error(`preload's item config must return an object`)
+          }
+        }
+      } else if (!isObject(preloadConfig)) {
         throw new Error(`preload config must export or return an object`)
       }
     } else {
